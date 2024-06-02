@@ -39,3 +39,13 @@ gsap.to(".shape--bottom-main", {
   opacity: 0,
   y: -200,
 });
+// JavaScript to add background color to navbar on scroll
+window.addEventListener("scroll", function () {
+  var navbar = document.getElementById("navbar");
+  if (window.scrollY > 50) {
+    // Adjust this value as needed
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
