@@ -703,3 +703,11 @@ footer a {
 /*# sourceMappingURL=style.css.map */
 
 /*# sourceMappingURL=style.css.map */
+
+.social-links {
+  transition: all 0.3s ease-in-out;
+}
+
+.social-links:hover {
+  transform: translateY(-5px);
+}
