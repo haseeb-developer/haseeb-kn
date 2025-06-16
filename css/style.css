@@ -24,6 +24,12 @@ body {
   /* overflow-x: hidden; */
 }
 
+#value {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+
 .flex {
   display: flex;
 }
