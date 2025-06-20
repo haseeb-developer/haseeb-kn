@@ -671,6 +671,7 @@ footer a {
   color: #24e394;
 }
 
+
 .about-us .comment {
   color: #78707e;
   font-size: 16px;
@@ -710,4 +711,8 @@ footer a {
 
 .social-links:hover {
   transform: translateY(-5px);
+}
+.comment {
+  color: #6a9955; /* Typical comment green color */
+  font-style: italic;
 }
