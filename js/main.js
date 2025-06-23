@@ -48,25 +48,3 @@ window.addEventListener("scroll", function () {
     navbar.classList.remove("scrolled");
   }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Light/Dark mode toggle
-  const themeToggle = document.getElementById('theme-toggle');
-  const body = document.body;
-  const LIGHT_CLASS = 'light-mode';
-
-  // Set initial mode from localStorage
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add(LIGHT_CLASS);
-    themeToggle.textContent = '☀️';
-  }
-
-  themeToggle.addEventListener('click', function() {
-    body.classList.toggle(LIGHT_CLASS);
-    const isLight = body.classList.contains(LIGHT_CLASS);
-    themeToggle.textContent = isLight ? '☀️' : '🌙';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
-
-  // Prepare for future enhancements (scroll reveal, etc.)
-});
