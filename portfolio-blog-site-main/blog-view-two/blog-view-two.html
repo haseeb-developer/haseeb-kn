@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Terminal with JavaScript | Haseeb</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" />
+    <style>
+        :root {
+            --primary: #8739fa;
+            --primary-light: #9e5afb;
+            --secondary: #37b9f1;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            color: var(--dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        width: 100%;
+      }
+
+        body::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            transition: transform 0.3s ease;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .icons {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .icon {
+            width: 34px;
+            height: 34px;
+            transition: all 0.3s ease;
+        }
+
+        .icon:hover {
+            transform: translateY(-3px);
+        }
+
+        .icon path {
+            transition: stroke 0.3s ease;
+        }
+
+        a:hover .icon path {
+            stroke: var(--primary);
+        }
+
+        .blog-container {
+            position: relative;
+        }
+
+        .blog-header {
+            position: relative;
+        }
+
+        .blog-date {
+            font-family: "Inter", sans-serif;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .blog-date::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 1px;
+            background: var(--gray);
+            margin-right: 10px;
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 2rem 0;
+            line-height: 1.2;
+            color: var(--dark);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .blog-content {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            color: var(--dark-light);
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .blog-image {
+            width: 100%;
+            border-radius: 16px;
+            margin: 2.5rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .blog-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        h2,
+        h3 {
+            margin: 2rem 0 1.5rem;
+            color: var(--dark);
+            font-weight: 700;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        h2::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom,
+                    var(--primary),
+                    var(--secondary));
+            border-radius: 2px;
+        }
+
+        ol,
+        ul {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        li::marker {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        code {
+            font-family: "Courier New", Courier, monospace;
+            background: var(--code-bg);
+            color: #f8fafc;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            /* padding: 1.5rem; */
+            border-radius: 15px;
+            overflow-x: auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .language-javascript {
+            padding: 30px !important;
+        }
+
+        /* pre::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px 12px 0 0;
+      } */
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(53, 53, 53, 0.47);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1em;
+            color: #f8fafc;
+            font-family: "Inter", sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .code-copy {
+            background: transparent;
+            border: none;
+            color: #f8fafc;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-copy:hover {
+            color: var(--secondary);
+        }
+
+        .blog-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(135, 57, 250, 0.1);
+        }
+
+        .back-link:hover {
+            background: rgba(135, 57, 250, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .back-link svg {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover svg {
+            transform: translateX(-3px);
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(55, 185, 241, 0.1);
+            color: var(--secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(55, 185, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(55, 185, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .terminal-demo {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-btn.red {
+            background: #ff5f56;
+        }
+
+        .terminal-btn.yellow {
+            background: #ffbd2e;
+        }
+
+        .terminal-btn.green {
+            background: #27c93f;
+        }
+
+        .terminal-content {
+            font-family: "Courier New", Courier, monospace;
+            color: #f8f8f2;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .terminal-content .command {
+            color: #50fa7b;
+        }
+
+        .terminal-content .output {
+            color: #f1fa8c;
+        }
+
+        .terminal-content .time {
+            color: #8be9fd;
+        }
+
+        @media (max-width: 768px) {
+            .blog-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .blog-title {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .blog-content {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .blog-title {
+                font-size: 1.8rem;
+            }
+
+            .blog-footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-start;
+            }
+        }
+
+        /* Floating animation */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .language-javascript {
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+        <div class="logo">
+            <a href="https://haseeb-kn.vercel.app">Haseeb</a>
+        </div>
+        <div class="icons">
+            <a href="https://linkedin.com/in/mhaseebdevv" target="_blank">
+                <svg width="34" height="34" viewBox="0 0 34 34" class="icon" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M32 10.3333V23.6667C32 28.269 28.269 32 23.6667 32H10.3333C5.73097 32 2 28.269 2 23.6667V10.3333C2 5.73097 5.73097 2 10.3333 2H23.6667C28.269 2 32 5.73097 32 10.3333Z"
+                        stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M8.66675 25.3334V19.5V13.6667" stroke="#777779" stroke-width="2.01" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path
+                        d="M15.3333 25.3334V19.9167M15.3333 19.9167V13.6667M15.3333 19.9167C15.3333 13.6667 25.3333 13.6667 25.3333 19.9167V25.3334"
+                        stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M8.66675 8.68334L8.68342 8.66483" stroke="#777779" stroke-width="2.01" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </a>
+        
+            <a href="https://codepen.io/haseebdevv">
+                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" class="icon" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32 12V22" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                    <path d="M2 22V12" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                    <path d="M17 32V22" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                    <path d="M17 2V12" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                    <path d="M17 22L2 12L17 2L32 12L17 22Z" stroke="#777779" stroke-width="2.01" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path d="M17 32L2 22L17 12L32 22L17 32Z" stroke="#777779" stroke-width="2.01" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </a>
+            </div>
+    </header>
+  </div>
+   
+
+      <div class="container">
+        <div class="blog-container">
+            <div class="blog-header">
+                <div class="blog-date">June 16, 2025</div>
+                <h1 class="blog-title floating">
+                    Euro-Spiral Visual Rendering Core – A Real-Time 2D AI Pulse in Motion
+                </h1>
+            </div>
+        
+            <div class="blog-content">
+                <p>
+                    Experience the dynamic heartbeat of code — a live JavaScript-rendered spiral powered by trigonometric
+                    motion and vibrant HSL color cycling. This canvas-based engine runs entirely in-browser, generating 200+
+                    orbiting points that mimic neural pulse movements.
+                </p>
+        
+                <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+                    alt="JavaScript Spiral Example" class="blog-image" />
+        
+                <h2>Core Implementation</h2>
+        
+                <p>
+                    Below is the full code of the spiral visualization engine. You can copy, tweak, or remix it:
+                </p>
+        
+                <div class="code-header">
+                    <span>spiral.js</span>
+                    <button class="code-copy">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <pre><code class="language-javascript">const canvas = document.createElement("canvas");
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                document.body.appendChild(canvas);
+                const ctx = canvas.getContext("2d");
+                
+                let t = 0;
+                function draw() {
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  for (let i = 0; i < 200; i++) {
+                    const angle = i * 0.2 + t;
+                    const radius = i * 0.5;
+                    const x = canvas.width / 2 + Math.cos(angle) * radius;
+                    const y = canvas.height / 2 + Math.sin(angle) * radius;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fillStyle = `hsl(${angle * 50}, 100%, 60%)`;
+                    ctx.fill();
+                  }
+                  t += 0.02;
+                  requestAnimationFrame(draw);
+                }
+                draw();</code></pre>
+        
+                <div class="terminal-demo">
+                    <canvas style="border: 2px solid #555; margin-top: 20px; width: 100%; height: 400px;"></canvas>
+                </div>
+        
+                <h2>How It Works</h2>
+        
+                <ol>
+                    <li>
+                        <strong>Canvas Setup:</strong> Dynamically adds a full-window canvas element to render the spiral.
+                    </li>
+                    <li>
+                        <strong>Trigonometry in Action:</strong> Each point's X and Y position is calculated using
+                        <code>Math.cos</code> and <code>Math.sin</code>.
+                    </li>
+                    <li>
+                        <strong>Color Gradient:</strong> Uses <code>HSL</code> for smooth color transitions as each point
+                        orbits.
+                    </li>
+                    <li>
+                        <strong>Animation Frame Loop:</strong> The spiral moves smoothly using
+                        <code>requestAnimationFrame</code>.
+                    </li>
+                </ol>
+        
+                <h2>Why This Feature Matters</h2>
+                <ul>
+                    <li><strong>Educational Visual:</strong> Perfect for visual learners understanding real-time motion and
+                        math in code.</li>
+                    <li><strong>Creative Displays:</strong> Add it to your site header or background as a live visual flair.
+                    </li>
+                    <li><strong>Performance-Oriented:</strong> Runs without frameworks and fully GPU-accelerated via the
+                        canvas API.</li>
+                    <li><strong>Modular:</strong> Easily customizable for particle count, speed, and design tweaks.</li>
+                </ul>
+            </div>
+
+            <div class="codepen-embed">
+                <p class="codepen" data-height="500" data-theme-id="dark" data-default-tab="js" data-slug-hash="EajpWWx"
+                    data-user="haseebdevv" style="
+                                      height: 500px;
+                                      box-sizing: border-box;
+                                      display: flex;
+                                      align-items: center;
+                                      justify-content: center;
+                                      border: 2px solid;
+                                      margin: 1em 0;
+                                      padding: 1em;
+                                    ">
+                    <span>See the Pen
+                        <a href="https://codepen.io/haseebdevv/pen/EajpWWx">useFetch Hook Implementation</a>
+                        by Haseeb (<a href="https://codepen.io/haseebdevv">@haseebdevv</a>)
+                        on <a href="https://codepen.io">CodePen</a>.</span>
+                </p></div>
+        
+            <div class="blog-footer">
+                <a href="../index.html" class="back-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to all articles
+                </a>
+                <div class="tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Canvas</span>
+                    <span class="tag">Creative Coding</span>
+                    <span class="tag">Animation</span>
+                    <span class="tag">Visual Design</span>
+                </div>
+            </div>
+        </div>
+      </div>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>
+            hljs.highlightAll();
+
+            // Spiral canvas rendering logic
+            const canvas = document.querySelector("canvas");
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = 400;
+                const ctx = canvas.getContext("2d");
+
+                let t = 0;
+                function draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < 200; i++) {
+                        const angle = i * 0.2 + t;
+                        const radius = i * 0.5;
+                        const x = canvas.width / 2 + Math.cos(angle) * radius;
+                        const y = canvas.height / 2 + Math.sin(angle) * radius;
+                        ctx.beginPath();
+                        ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                        ctx.fillStyle = `hsl(${angle * 50}, 100%, 60%)`;
+                        ctx.fill();
+                    }
+                    t += 0.02;
+                    requestAnimationFrame(draw);
+                }
+                draw();
+            }
+
+            // Copy button handler
+            document.querySelectorAll(".code-copy").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const codeBlock = button.closest(".code-header").nextElementSibling;
+                    const code = codeBlock.textContent;
+                    navigator.clipboard.writeText(code);
+                    button.innerHTML = `
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg>
+                            Copied!
+                        `;
+                    setTimeout(() => {
+                        button.innerHTML = `
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy
+                            `;
+                    }, 2000);
+                });
+            });
+        </script>
+
+<script
+async
+src="https://cpwebassets.codepen.io/assets/embed/ei.js"
+></script>
+</body>
+
+</html>

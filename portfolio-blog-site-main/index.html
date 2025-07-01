@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Haseeb's experimental development blog featuring cutting-edge web techniques">
+  <link rel="shortcut icon" href="./assets/fav.png" type="image/x-icon">
+  <title>Blog | Haseeb's Experimental Development Journal</title>
+
+  <!-- Preload critical resources -->
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    as="style">
+  <link rel="preload" as="image"
+    href="https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <!-- GLSL shaders for WebGL effects -->
+  <script id="vertexShader" type="x-shader/x-vertex">
+      void main() {
+        gl_Position = vec4(position, 1.0);
+      }
+    </script>
+
+  <script id="fragmentShader" type="x-shader/x-fragment">
+      uniform float time;
+      uniform vec2 resolution;
+      uniform vec2 mouse;
+      
+      void main() {
+        vec2 uv = (gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.y;
+        vec2 mousePos = (mouse - 0.5 * resolution.xy) / resolution.y;
+        
+        float dist = length(uv - mousePos * 0.5);
+        float wave = sin(dist * 20.0 - time * 3.0) * 0.5 + 0.5;
+        
+        vec3 color = mix(
+          vec3(0.1, 0.3, 0.8),
+          vec3(0.8, 0.1, 0.4),
+          wave
+        );
+        
+        gl_FragColor = vec4(color * (1.0 - smoothstep(0.2, 0.5, dist)), 0.15);
+      }
+    </script>
+
+  <style>
+    :root {
+      --primary: #00f0ff;
+      --secondary: #ff00e6;
+      --tertiary: #9600ff;
+      --bg: #0a0a12;
+      --surface: #12121a;
+      --text: #e0e0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #ff3c00;
+      --error: #ff3860;
+      --success: #00d1b2;
+      --warning: #ffdd57;
+      --info: #3298dc;
+      --border-radius: 12px;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      --font-primary: 'Space Grotesk', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --glow: 0 0 15px rgba(0, 240, 255, 0.3);
+      --glow-secondary: 0 0 15px rgba(255, 0, 230, 0.3);
+    }
+
+    /* Light theme overrides */
+    html[data-theme="light"] {
+      --primary: #0077ff;
+      --secondary: #ff3c00;
+      --tertiary: #9600ff;
+      --bg: #f8faff;
+      --surface: #fff;
+      --text: #1a1a2a;
+      --text-secondary: #4a4a6a;
+      --accent: #ff00e6;
+      --error: #ff3860;
+      --success: #00b289;
+      --warning: #ffb400;
+      --info: #0077ff;
+      --glow: 0 0 15px rgba(0, 119, 255, 0.15);
+      --glow-secondary: 0 0 15px rgba(255, 60, 0, 0.15);
+    }
+
+    html[data-theme="light"] body {
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    html[data-theme="light"] header,
+    html[data-theme="light"] footer {
+      background: rgba(255,255,255,0.85);
+      color: var(--text-secondary);
+      border-color: rgba(0,0,0,0.05);
+    }
+
+    html[data-theme="light"] .card {
+      background: var(--surface);
+      border-color: rgba(0,0,0,0.05);
+      box-shadow: none;
+    }
+
+    html[data-theme="light"] .card-title {
+      color: var(--text);
+    }
+
+    html[data-theme="light"] .card-link:hover .card-title {
+      color: var(--primary);
+    }
+
+    html[data-theme="light"] .console-effect {
+      background: rgba(255,255,255,0.7);
+      color: var(--primary);
+      border-top: 1px solid var(--primary);
+    }
+
+    html[data-theme="light"] .scroll-progress {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    html[data-theme="light"] .theme-toggle {
+      background: var(--surface);
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    html[data-theme="light"] .theme-toggle i {
+      color: var(--primary);
+    }
+
+    html[data-theme="light"] .cursor-follower {
+      background: rgba(0, 119, 255, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* WebGL Background Canvas */
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      width: 100%;
+      padding-inline: 20px;
+      margin: 0 auto;
+    }
+
+    /* Header Styles */
+    header {
+      /* position: fixed; */
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(10, 10, 18, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      position: relative;
+      transition: var(--transition);
+      font-family: var(--font-mono);
+    }
+
+    .logo::after {
+      content: '_';
+      opacity: 0;
+      animation: blink 1s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .logo:hover {
+      text-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .icons {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--primary);
+      transition: var(--transition);
+    }
+
+    .icon {
+      width: 34px;
+      height: 34px;
+      transition: var(--transition);
+      fill: none;
+      stroke: var(--text-secondary);
+    }
+
+    .icon:hover {
+      stroke: var(--primary);
+      transform: translateY(-3px) scale(1.1);
+      filter: drop-shadow(var(--glow));
+    }
+
+    /* Main Content */
+    .main-container {
+      flex: 1;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Blog Title */
+    .blog-title {
+      font-size: 4rem;
+      margin-bottom: 3rem;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    .blog-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    .blog-title:hover::after {
+      transform: scaleX(1);
+    }
+
+    .blog {
+      padding-top: 120px;
+    }
+
+    /* Cards Grid */
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .card-link {
+      text-decoration: none;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .card-link:hover {
+      transform: translateY(-10px);
+    }
+
+    /* Card Styles */
+    .card {
+      position: relative;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: row;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      @media (max-width: 1100px) {
+        flex-direction: column;
+        
+      }
+    }
+
+    footer p {
+      padding-bottom: 40px;
+    }
+
+    .card:hover {
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(255, 0, 230, 0.1));
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* Particle Effect Container */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .card:hover .particles {
+      opacity: 1;
+    }
+
+    /* Card Image */
+    .card-image-container {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      max-width: 300px;
+    width: 100%;
+
+    @media (max-width: 1100px) {
+      height: 250px;
+      max-width: 100%;
+    }
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .card:hover .card-image {
+      transform: scale(1.05);
+    }
+
+    .card-image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      z-index: 2;
+    }
+
+    .card-image-text {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: white;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+      transform: translateY(60px);
+    }
+
+    .card:hover .card-image-text {
+      transform: translateY(0);
+      transition: transform 0.4s ease-in-out;
+    }
+
+    /* Card Content */
+    .card-content {
+      padding: 1.5rem;
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+      line-height: 1.4;
+      transition: var(--transition);
+    }
+
+    .card-link:hover .card-title {
+      color: var(--primary);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .tag.css {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .tag.CSSSelectors {
+      background: rgba(255, 0, 230, 0.1);
+      color: var(--secondary);
+      border: 1px solid var(--secondary);
+    }
+
+    .tag.has {
+      background: rgba(150, 0, 255, 0.1);
+      color: var(--tertiary);
+      border: 1px solid var(--tertiary);
+    }
+
+    .tag.tips {
+      background: rgba(255, 60, 0, 0.1);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .tag.newmediaqueries {
+      background: rgba(50, 152, 220, 0.1);
+      color: var(--info);
+      border: 1px solid var(--info);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(10, 10, 18, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+
+      @media (max-width: 1200px) {
+        padding-inline: 20px;
+        text-align: left;
+      }
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* Floating Cursor Follower */
+    .cursor-follower {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0, 240, 255, 0.5);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      z-index: 9999;
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .blog-title {
+        font-size: 2.5rem;
+      }
+
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Theme Toggle (hidden by default) */
+    .theme-toggle {
+      position: fixed;
+      bottom: 3.5rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+
+      @media (max-width: 1200px) {
+        right: 4rem;
+      }
+
+      @media (max-width: 768px) {
+        right: 2rem;
+        bottom: 4rem;
+      }
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-3px) rotate(30deg);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle i {
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    /* Terminal-like console effect */
+    .console-effect {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.7);
+      border-top: 1px solid rgba(0, 240, 255, 0.2);
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--primary);
+      z-index: 100;
+    }
+
+    .console-effect::before {
+      content: '> ';
+    }
+
+    .console-text {
+      margin-left: 0.5rem;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--primary);
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0
+      }
+
+      to {
+        width: 100%
+      }
+    }
+
+    @keyframes blink-caret {
+
+      from,
+      to {
+        border-color: transparent
+      }
+
+      50% {
+        border-color: var(--primary)
+      }
+    }
+
+    /* Special hover effects for cards */
+    /* .card-link:hover .card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+      animation: rotate 6s linear infinite;
+      border-radius: 50%;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg)
+      }
+
+      100% {
+        transform: rotate(360deg)
+      }
+    } */
+
+    /* Scroll indicator */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      z-index: 1000;
+      transition: width 0.1s ease;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- WebGL Background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress"></div>
+
+  <!-- Custom Cursor Follower -->
+  <div class="cursor-follower"></div>
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <!-- Terminal Console Effect -->
+  <div class="console-effect">
+    <div class="console-text">Initializing haseeb-blog interface... Ready for user interaction</div>
+  </div>
+
+  <div class="main-container">
+    <div class="header-container">
+      <header>
+        <div class="logo">
+          <a href="https://haseeb-kn.vercel.app">Haseeb_Dev</a>
+        </div>
+        <div class="icons">
+          <a href="https://linkedin.com/mhaseebdevv" target="_blank" aria-label="LinkedIn">
+            <svg width="34" height="34" viewBox="0 0 34 34" class="icon" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M32 10.3333V23.6667C32 28.269 28.269 32 23.6667 32H10.3333C5.73097 32 2 28.269 2 23.6667V10.3333C2 5.73097 5.73097 2 10.3333 2H23.6667C28.269 2 32 5.73097 32 10.3333Z"
+                stroke="currentColor" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M8.66675 25.3334V19.5V13.6667" stroke="currentColor" stroke-width="2.01" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M15.3333 25.3334V19.9167M15.3333 19.9167V13.6667M15.3333 19.9167C15.3333 13.6667 25.3333 13.6667 25.3333 19.9167V25.3334"
+                stroke="currentColor" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M8.66675 8.68334L8.68342 8.66483" stroke="currentColor" stroke-width="2.01" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+      
+          <a href="https://codepen.io/haseebdevv" aria-label="CodePen">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" class="icon" xmlns="http://www.w3.org/2000/svg">
+              <path d="M32 12V22" stroke="currentColor" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+              <path d="M2 22V12" stroke="currentColor" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+              <path d="M17 32V22" stroke="currentColor" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+              <path d="M17 2V12" stroke="currentColor" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round">
+              </path>
+              <path d="M17 22L2 12L17 2L32 12L17 22Z" stroke="currentColor" stroke-width="2.01" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path d="M17 32L2 22L17 12L32 22L17 32Z" stroke="currentColor" stroke-width="2.01" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+        </div>
+        </header>
+    </div>
+
+    <section class="blog">
+      <div class="container">
+        <h2 class="blog-title">Blog</h2>
+
+        <div class="cards-container">
+          <a href="./blog-view-one/blog-view-one.html" class="card-link">
+            <div class="card">
+              <div class="particles" id="particles-1"></div>
+              <div class="card-image-container">
+                <img
+                  src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                  alt="JS Terminal" class="card-image" loading="lazy" />
+                <div class="card-image-overlay">
+                  <div class="card-image-text">JS_TERMINAL</div>
+                </div>
+              </div>
+              <div class="card-content">
+                <h2 class="card-title">
+                  Building a Fully Functional JavaScript Terminal in the Browser
+                  — Simulating a Real Command-Line Experience Using HTML, CSS,
+                  and JS
+                </h2>
+                <div class="card-tags">
+                  <span class="tag css">#javascript</span>
+                  <span class="tag CSSSelectors">#terminal</span>
+                  <span class="tag has">#experimental</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="./blog-view-two/blog-view-two.html" class="card-link">
+            <div class="card">
+              <div class="particles" id="particles-2"></div>
+              <div class="card-image-container">
+                <img
+                  src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                  alt="AI Canvas" class="card-image" loading="lazy" />
+                <div class="card-image-overlay">
+                  <div class="card-image-text">BLOG_SPIRAL</div>
+                </div>
+              </div>
+              <div class="card-content">
+                <h2 class="card-title">
+                  Blog-Spiral Visual Rendering Core – An AI-Powered Engine for Dynamic Pattern Generation
+                </h2>
+                <div class="card-tags">
+                  <span class="tag css">#SelfRenderingJS</span>
+                  <span class="tag newmediaqueries">#AICanvasEngine</span>
+                  <span class="tag has">#TrigonometricVisuals</span>
+                  <span class="tag CSSSelectors">#NeuralSpiralAnimation</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Developed by <span>Muhammad Haseeb</span> | 2025</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+  <script>
+    // WebGL Background Animation
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- THEME TOGGLE LOGIC ---
+      const themeToggle = document.querySelector('.theme-toggle');
+      const icon = themeToggle.querySelector('i');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      // Load theme from localStorage or system
+      function setTheme(theme, animate = false) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+
+        // Animate icon
+        if (animate) {
+          icon.classList.add('fa-spin');
+          setTimeout(() => icon.classList.remove('fa-spin'), 400);
+        }
+
+        if (theme === 'dark') {
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+        } else {
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+        }
+      }
+
+      // On load
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        setTheme(prefersDark ? 'dark' : 'light');
+      }
+
+      // Toggle on click
+      themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark', true);
+      });
+
+      // --- EXISTING CODE ---
+      // Initialize WebGL background
+      const canvas = document.getElementById('bgCanvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 1;
+
+      const uniforms = {
+        time: { type: "f", value: 1.0 },
+        resolution: { type: "v2", value: new THREE.Vector2() },
+        mouse: { type: "v2", value: new THREE.Vector2() }
+      };
+
+      uniforms.resolution.value.x = window.innerWidth;
+      uniforms.resolution.value.y = window.innerHeight;
+
+      const geometry = new THREE.PlaneGeometry(2, 2);
+      const material = new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        vertexShader: document.getElementById('vertexShader').textContent,
+        fragmentShader: document.getElementById('fragmentShader').textContent,
+        transparent: true
+      });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+
+      // Mouse movement effect
+      document.addEventListener('mousemove', (e) => {
+        uniforms.mouse.value.x = e.clientX;
+        uniforms.mouse.value.y = e.clientY;
+      });
+
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        uniforms.time.value += 0.05;
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Window resize handler
+      window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        uniforms.resolution.value.x = window.innerWidth;
+        uniforms.resolution.value.y = window.innerHeight;
+      });
+
+      // Custom cursor follower
+      const cursorFollower = document.querySelector('.cursor-follower');
+      document.addEventListener('mousemove', (e) => {
+        gsap.to(cursorFollower, {
+          x: e.clientX,
+          y: e.clientY,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+
+      // Cursor effects on interactive elements
+      const interactiveElements = document.querySelectorAll('a, button, .card');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          gsap.to(cursorFollower, {
+            width: 40,
+            height: 40,
+            backgroundColor: 'rgba(0, 240, 255, 0.2)',
+            duration: 0.3
+          });
+        });
+
+        el.addEventListener('mouseleave', () => {
+          gsap.to(cursorFollower, {
+            width: 20,
+            height: 20,
+            backgroundColor: 'rgba(0, 240, 255, 0.5)',
+            duration: 0.3
+          });
+        });
+      });
+
+      // Scroll progress indicator
+      const scrollProgress = document.querySelector('.scroll-progress');
+      window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        scrollProgress.style.width = `${progress}%`;
+      });
+
+      // Initialize tilt effect on cards
+      VanillaTilt.init(document.querySelectorAll(".card"), {
+        max: 5,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2,
+        scale: 1.02
+      });
+
+      // Particle effects for cards
+      const initParticles = (id) => {
+        const container = document.getElementById(id);
+        const canvas = document.createElement('canvas');
+        container.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+
+        const particles = [];
+        const particleCount = Math.floor(canvas.width * canvas.height / 10000);
+
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 1,
+            speedX: Math.random() * 0.5 - 0.25,
+            speedY: Math.random() * 0.5 - 0.25,
+            color: `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 155)}, 255, ${Math.random() * 0.5 + 0.1})`
+          });
+        }
+
+        function animateParticles() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+
+            p.x += p.speedX;
+            p.y += p.speedY;
+
+            if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+          }
+
+          requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+          canvas.width = container.offsetWidth;
+          canvas.height = container.offsetHeight;
+        });
+      };
+
+      // Initialize particles for each card
+      initParticles('particles-1');
+      initParticles('particles-2');
+    });
+
+    // Vercel analytics (original)
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+</body>
+
+</html>
