@@ -113,4 +113,12 @@ window.addEventListener("scroll", function () {
     link.addEventListener('mouseleave', hideTooltip);
     link.addEventListener('blur', hideTooltip);
   });
+
+  // Also support span[data-tooltip] for fun projects
+  document.querySelectorAll('span[data-tooltip]').forEach(link => {
+    link.addEventListener('mouseenter', showTooltip);
+    link.addEventListener('mousemove', positionTooltip);
+    link.addEventListener('mouseleave', hideTooltip);
+    link.addEventListener('blur', hideTooltip);
+  });
 })();

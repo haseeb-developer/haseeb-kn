@@ -131,6 +131,68 @@
       opacity: 1;
       transform: translateX(0);
     }
+    .resolution-tooltip-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .resolution-fun-label {
+      cursor: pointer;
+      outline: none;
+      position: relative;
+      z-index: 2;
+      color: #24e33a;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      transition: color 0.2s;
+    }
+    .resolution-tooltip {
+      pointer-events: none;
+      position: absolute;
+      left: 50%;
+      bottom: 120%;
+      transform: translateX(-50%) translateY(10px);
+      opacity: 0; 
+      background: #fff;
+      color: #181c1b;
+      font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+      font-size: 1em;
+      padding: 0.55em 1.2em;
+      border-radius: 7px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      white-space: nowrap;
+      transition: opacity 0.22s cubic-bezier(.4,1.6,.6,1), transform 0.32s cubic-bezier(.4,1.6,.6,1), background 0.22s cubic-bezier(.4,1.6,.6,1);
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      z-index: 10;
+      overflow: hidden;
+    }
+    .resolution-tooltip-inner {
+      opacity: 0;
+      transform: translateX(32px);
+      transition: opacity 0.32s cubic-bezier(.4,2,.6,1) 0.18s, transform 0.38s cubic-bezier(.4,2,.6,1) 0.18s;
+      font-variant-numeric: tabular-nums;
+      font-size: 1.08em;
+      font-weight: 600;
+      color: #24e33a;
+      text-shadow: 0 0 8px #24e33a22;
+    }
+    .resolution-fun-label:hover .resolution-tooltip,
+    .resolution-fun-label:focus .resolution-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+      background: #fff;
+      transition-delay: 0s, 0s, 0s;
+    }
+    .resolution-fun-label:hover .resolution-tooltip-inner,
+    .resolution-fun-label:focus .resolution-tooltip-inner {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: 0.13s, 0.13s;
+    }
   </style>
 </head>
 <body class="has-bg homepage">
@@ -254,7 +316,7 @@
       <span class="dot">··</span>}
       <span class="dot">··</span><span class="propname">funProjects()</span> {
       <span class="dot">····</span><span class="method">return</span> [
-      <span class="dot">······</span>{ <span class="string"><a href="https://check-screen-resolution.vercel.app/" target="_blank">'what is my screen resolution'</a> </span>}
+      <span class="dot">······</span>{ <span class="string"><span class="resolution-fun-label" data-tooltip="1536 x 864" tabindex="0">'what is my screen resolution'</span> </span>}
       <span class="dot">····</span>]
       <span class="dot">··</span>}
       <span class="dot">··</span><span class="propname">skills()</span> {
