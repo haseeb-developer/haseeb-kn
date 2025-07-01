@@ -771,3 +771,12 @@ footer a {
   opacity: 1;
   transform: translateX(0);
 }
+.custom-tooltip .tooltip-label:empty {
+  display: none;
+}
+.custom-tooltip .tooltip-label:empty + .tooltip-tech {
+  margin-left: 0;
+}
+.custom-tooltip:has(.tooltip-label:empty) {
+  gap: 0;
+}
