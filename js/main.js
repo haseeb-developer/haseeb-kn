@@ -60,9 +60,13 @@ window.addEventListener("scroll", function () {
     const link = e.currentTarget;
     const text = link.getAttribute('data-tooltip');
     if (!text) return;
-    // Split into label and tech
-    let label = 'Developed in:';
-    let tech = text.replace(/^Developed in:\s*/i, '');
+    // If the text is just a filename or single word, show only that
+    let label = '';
+    let tech = text;
+    if (text.startsWith('Developed in:')) {
+      label = 'Developed in:';
+      tech = text.replace(/^Developed in:\s*/i, '');
+    }
     if (!tooltip) {
       tooltip = document.createElement('div');
       tooltip.className = 'custom-tooltip';
