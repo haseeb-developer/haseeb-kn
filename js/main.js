@@ -48,3 +48,65 @@ window.addEventListener("scroll", function () {
     navbar.classList.remove("scrolled");
   }
 });
+
+// Tooltip for portfolio links
+(function() {
+  let tooltip;
+  let tooltipLabel;
+  let tooltipTech;
+  let activeLink = null;
+
+  function showTooltip(e) {
+    const link = e.currentTarget;
+    const text = link.getAttribute('data-tooltip');
+    if (!text) return;
+    // Split into label and tech
+    let label = 'Developed in:';
+    let tech = text.replace(/^Developed in:\s*/i, '');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.className = 'custom-tooltip';
+      tooltipLabel = document.createElement('span');
+      tooltipLabel.className = 'tooltip-label';
+      tooltipTech = document.createElement('span');
+      tooltipTech.className = 'tooltip-tech';
+      tooltip.appendChild(tooltipLabel);
+      tooltip.appendChild(tooltipTech);
+      document.body.appendChild(tooltip);
+    }
+    tooltipLabel.textContent = label;
+    tooltipTech.textContent = tech;
+    tooltip.classList.add('active');
+    activeLink = link;
+    positionTooltip(e);
+  }
+
+  function hideTooltip() {
+    if (tooltip) {
+      tooltip.classList.remove('active');
+      activeLink = null;
+    }
+  }
+
+  function positionTooltip(e) {
+    if (!tooltip || !activeLink) return;
+    const rect = activeLink.getBoundingClientRect();
+    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollX = window.scrollX || window.pageXOffset;
+    // Center tooltip above the link, follow mouse X
+    const tooltipRect = tooltip.getBoundingClientRect();
+    let left = e.clientX - tooltipRect.width / 2;
+    // Clamp to viewport
+    left = Math.max(8, Math.min(left, window.innerWidth - tooltipRect.width - 8));
+    let top = rect.top + scrollY - tooltipRect.height - 12;
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+
+  document.querySelectorAll('a[data-tooltip]').forEach(link => {
+    link.addEventListener('mouseenter', showTooltip);
+    link.addEventListener('mousemove', positionTooltip);
+    link.addEventListener('mouseleave', hideTooltip);
+    link.addEventListener('blur', hideTooltip);
+  });
+})();

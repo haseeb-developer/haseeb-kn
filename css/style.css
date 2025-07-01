@@ -712,7 +712,62 @@ footer a {
 .social-links:hover {
   transform: translateY(-5px);
 }
-.comment {
-  color: #6a9955; /* Typical comment green color */
-  font-style: italic;
+
+.shopify-link::after {
+  content: " - Shopify";
+  color: #78707e;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+  margin-right: 5px;
+}
+
+.small-text {
+  font-size: 12px;
+  color: #78707e;
+}
+
+.custom-tooltip {
+  position: absolute;
+  z-index: 9999;
+  background: #fff;
+  color: #111;
+  padding: 0.6em 1.2em;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  font-size: 1em;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.35s cubic-bezier(.4,2,.6,1);
+  white-space: nowrap;
+  will-change: opacity, transform;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  gap: 0.5em;
+}
+.custom-tooltip.active {
+  opacity: 1;
+  transform: translateY(-16px) scale(1.03);
+}
+.custom-tooltip .tooltip-label {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.32s cubic-bezier(.4,2,.6,1) 0.12s, transform 0.38s cubic-bezier(.4,2,.6,1) 0.12s;
+  will-change: opacity, transform;
+}
+.custom-tooltip.active .tooltip-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+.custom-tooltip .tooltip-tech {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.32s cubic-bezier(.4,2,.6,1) 0.32s, transform 0.38s cubic-bezier(.4,2,.6,1) 0.32s;
+  will-change: opacity, transform;
+}
+.custom-tooltip.active .tooltip-tech {
+  opacity: 1;
+  transform: translateX(0);
 }

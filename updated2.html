@@ -6,18 +6,30 @@
   <link rel="shortcut icon" href="./assets/fav.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css">
   <title>Home - Haseeb-kn | Portfolio</title>
+  <style>
+    .tech-badge {
+      display: inline-block;
+      background: transparent;
+      color: #222;
+      font-size: 0.95em;
+      border-radius: 6px;
+      padding: 0.18em 0.7em;
+      margin-left: 0.5em;
+      margin-right: 0.2em;
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.6s cubic-bezier(.4,2,.6,1), transform 0.7s cubic-bezier(.4,2,.6,1);
+    }
+    .tech-badge.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  </style>
   <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
   </script>
-  <style>
-    [data-tooltip]:hover, [data-tooltip]:focus {
-      background: #5918df;
-      border-radius: 5px;
-      transition: background 0.2s;
-    }
-  </style>
 </head>
 <body class="has-bg homepage">
   <div class="shape shape--top-main"></div>
@@ -120,17 +132,17 @@
       <span class="dot">··</span><span class="propname">portfolio()</span> {
       <span class="dot">····</span><span class="method">return</span> [
       <span class="dot">······</span><span class="separater comment">// Shopify Projects</span>
-      <span class="dot">······</span>{ <span class="string">'Azo-products'        : <a href="https://azo-products.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://azo-products.com/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'Archejerky'          : <a href="https://archerjerky.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://archerjerky.com/'</a> </span>}
-      <span class="dot">······</span><span class="separater comment">// Web Apps and Projects</span>
-      <span class="dot">······</span>{ <span class="string">'Vaultify'            : <a href="https://vaultify-v1.vercel.app/" target="_blank" data-tooltip="Developed in: Next JS, Framer Motion, TS, Clerk">'https://vaultify-v1.vercel.app/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'Save API Keys'       : <a href="https://different-api-keys.vercel.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://different-api-keys.vercel.app/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'Image Gallery'       : <a href="https://your-gallery01.netlify.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://your-gallery01.netlify.app/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'Advanced Notes'      : <a href="https://my-safe-data.vercel.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://my-safe-data.vercel.app/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'React Registration'  : <a href="https://react-framer-form.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, Framer Motion">'https://react-framer-form.vercel.app/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'Weather App'         : <a href="https://check-live-weather.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, TS, Framer Motion">'https://check-live-weather.vercel.app/'</a> </span>}
+      <span class="dot">······</span>{ <span class="string">'Azo-products'                  : <a href="https://azo-products.com/" target="_blank">'https://azo-products.com/'</a>} </span><span class="tech-badge">Shopify</span>
+      <span class="dot">······</span>{ <span class="string">'Archejerky'                    : <a href="https://archerjerky.com/" target="_blank">'https://archerjerky.com/'</a>} </span><span class="tech-badge">Shopify</span>
+      <span class="dot">······</span><span class="separater comment">// Web Apps & Frontend Projects</span>
+      <span class="dot">······</span>{ <span class="string">'Vaultify'                      : <a href="https://vaultify-v1.vercel.app/" target="_blank">'https://vaultify-v1.vercel.app/'</a>} </span><span class="tech-badge">Next.js, Framer Motion, TS, Clerk</span>
+      <span class="dot">······</span>{ <span class="string">'Save API Keys'                 : <a href="https://different-api-keys.vercel.app/" target="_blank">'https://different-api-keys.vercel.app/'</a>} </span><span class="tech-badge">JavaScript</span>
+      <span class="dot">······</span>{ <span class="string">'Image Gallery'                 : <a href="https://your-gallery01.netlify.app/" target="_blank">'https://your-gallery01.netlify.app/'</a>} </span><span class="tech-badge">JavaScript</span>
+      <span class="dot">······</span>{ <span class="string">'Advanced Notes'                : <a href="https://my-safe-data.vercel.app/" target="_blank">'https://my-safe-data.vercel.app/'</a>} </span><span class="tech-badge">JavaScript</span>
+      <span class="dot">······</span>{ <span class="string">'React Registration'            : <a href="https://react-framer-form.vercel.app/" target="_blank">'https://react-framer-form.vercel.app/'</a>} </span><span class="tech-badge">React.js, Framer Motion</span>
+      <span class="dot">······</span>{ <span class="string">'Weather App'                   : <a href="https://check-live-weather.vercel.app/" target="_blank">'https://check-live-weather.vercel.app/'</a>} </span><span class="tech-badge">React.js, TS, Framer Motion</span>
       <span class="dot">······</span><span class="separater comment">// GitHub Projects</span>
-      <span class="dot">······</span>{ <span class="string">'AI Chatbot'          : <a href="https://github.com/haseeb-developer/next-ai-chatbot" target="_blank" data-tooltip="Developed in: xAI, Next.js, TS">'github.com/haseeb-developer/next-ai-chatbot'</a> </span>}
+      <span class="dot">······</span>{ <span class="string">'AI Chatbot (xAI, Next.js, TS)' : <a href="https://github.com/haseeb-developer/next-ai-chatbot" target="_blank">'github.com/haseeb-developer/next-ai-chatbot'</a> </span>} <span class="small-text">(GitHub, Open Source)</span>
       <span class="dot">····</span>]
       <span class="dot">··</span>}
       <span class="dot">··</span><span class="propname">myinfo()</span> {
@@ -178,17 +190,17 @@
     <span class="dot">··</span><span class="propname">portfolio()</span> {
     <span class="dot">····</span><span class="method">return</span> [
     <span class="dot">······</span><span class="separater comment">// Shopify Projects</span>
-    <span class="dot">······</span>{ <span class="string">'Azo-products'        : <a href="https://azo-products.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://azo-products.com/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'Archejerky'          : <a href="https://archerjerky.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://archerjerky.com/'</a> </span>}
-    <span class="dot">······</span><span class="separater comment">// Web Apps and Projects</span>
-    <span class="dot">······</span>{ <span class="string">'Vaultify'            : <a href="https://vaultify-v1.vercel.app/" target="_blank" data-tooltip="Developed in: Next JS, Framer Motion, TS, Clerk">'https://vaultify-v1.vercel.app/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'Save API Keys'       : <a href="https://different-api-keys.vercel.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://different-api-keys.vercel.app/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'Image Gallery'       : <a href="https://your-gallery01.netlify.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://your-gallery01.netlify.app/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'Advanced Notes'      : <a href="https://my-safe-data.vercel.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://my-safe-data.vercel.app/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'React Registration'  : <a href="https://react-framer-form.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, Framer Motion">'https://react-framer-form.vercel.app/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'Weather App'         : <a href="https://check-live-weather.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, TS, Framer Motion">'https://check-live-weather.vercel.app/'</a> </span>}
+    <span class="dot">······</span>{ <span class="string">'Azo-products'        : <a href="https://azo-products.com/" target="_blank">'https://azo-products.com/'</a> </span>},
+    <span class="dot">······</span>{ <span class="string">'Archejerky'          : <a href="https://archerjerky.com/" target="_blank">'https://archerjerky.com/'</a> </span>},
+    <span class="dot">······</span><span class="separater comment">// Next & React JS Projects</span>
+    <span class="dot">······</span>{ <span class="string">'Vaultify'            : <a href="https://vaultify-v1.vercel.app/" target="_blank">'https://vaultify-v1.vercel.app/'</a> </span>},
+    <span class="dot">······</span>{ <span class="string">'Save API Keys'       : <a href="https://different-api-keys.vercel.app/" target="_blank">'https://different-api-keys.vercel.app/'</a> </span>},
+    <span class="dot">······</span>{ <span class="string">'Image Gallery'       : <a href="https://your-gallery01.netlify.app/" target="_blank">'https://your-gallery01.netlify.app/'</a> </span>},
+    <span class="dot">······</span>{ <span class="string">'Advanced Notes'      : <a href="https://my-safe-data.vercel.app/" target="_blank">'https://my-safe-data.vercel.app/'</a> </span>},
+    <span class="dot">······</span>{ <span class="string">'React Registration'  : <a href="https://react-framer-form.vercel.app/" target="_blank">'https://react-framer-form.vercel.app/'</a> </span>},
+    <span class="dot">······</span>{ <span class="string">'Weather App'         : <a href="https://check-live-weather.vercel.app/" target="_blank">'https://check-live-weather.vercel.app/'</a> </span>},
     <span class="dot">······</span><span class="separater comment">// GitHub Projects</span>
-    <span class="dot">······</span>{ <span class="string">'AI Chatbot' : <a href="https://github.com/haseeb-developer/next-ai-chatbot" target="_blank" data-tooltip="Developed in: xAI, Next.js, TS">'github.com/haseeb-developer/next-ai-chatbot'</a> </span>}
+    <span class="dot">······</span>{ <span class="string">'AI Chatbot (xAI, Next.js, Vercel)' : <a href="https://github.com/haseeb-developer/ai-sdk-starter-xai" target="_blank">'github.com/haseeb-developer/ai-sdk-starter-xai'</a> </span>} <span class="small-text">(GitHub, Open Source)</span>
     <span class="dot">····</span>]
     <span class="dot">··</span>}
     <span class="dot">··</span><span class="propname">skills()</span> {
@@ -220,5 +232,38 @@
   <script src="js/gsap.min.js"></script>
   <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    function isTouchDevice() {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    }
+
+    if (isTouchDevice()) {
+      // Animate tech-badges in .for-mobile on scroll (IntersectionObserver)
+      window.addEventListener('DOMContentLoaded', function() {
+        var badges = document.querySelectorAll('.for-mobile .tech-badge');
+        if ('IntersectionObserver' in window) {
+          var observer = new IntersectionObserver(function(entries, obs) {
+            entries.forEach(function(entry, i) {
+              if (entry.isIntersecting) {
+                setTimeout(function() {
+                  entry.target.classList.add('visible');
+                }, i * 120); // stagger
+                obs.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1 });
+          badges.forEach(function(badge) {
+            observer.observe(badge);
+          });
+        } else {
+          badges.forEach(function(badge) {
+            badge.classList.add('visible');
+          });
+        }
+      });
+    } else {
+      // Desktop: Tooltip logic already handled in main.js, do nothing here
+    }
+  </script>
 </body>
 </html>
