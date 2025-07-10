@@ -123,26 +123,51 @@ window.addEventListener("scroll", function () {
   });
 })();
 
-// === Custom Animated Cursor ===
+// === Premium Divine Cursor ===
 (function() {
-  const cursor = document.querySelector('.custom-cursor');
-  if (!cursor) return;
-  // Instantly move cursor to mouse position
-  function moveCursor(e) {
-    const rect = cursor.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
-    cursor.style.transform = `translate(${e.clientX - w/2}px, ${e.clientY - h/2}px)`;
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  if (!dot || !ring) return;
+
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let dotX = mouseX, dotY = mouseY;
+  let ringX = mouseX, ringY = mouseY;
+  let isHover = false;
+  let isClick = false;
+
+  // Smooth trailing for dot and ring
+  function animate() {
+    dotX += (mouseX - dotX) * 0.32;
+    dotY += (mouseY - dotY) * 0.32;
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    dot.style.transform = `translate(${dotX - 5}px, ${dotY - 5}px)`;
+    ring.style.transform = `translate(${ringX - 22}px, ${ringY - 22}px)`;
+    requestAnimationFrame(animate);
   }
-  document.addEventListener('mousemove', moveCursor);
-  // Hover effect on interactive elements
-  const hoverables = document.querySelectorAll('a, button, .social-links, .resume-download-btn');
-  hoverables.forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+  animate();
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
+
+  // Hover effect on interactive elements
+  const hoverables = document.querySelectorAll('a, button, .social-links, .resume-download-btn, input, textarea, select');
+  hoverables.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      dot.classList.add('cursor-hover');
+      ring.classList.add('cursor-hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.classList.remove('cursor-hover');
+      ring.classList.remove('cursor-hover');
+    });
+  });
+
   // Hide on touch devices
   window.addEventListener('touchstart', () => {
-    cursor.style.display = 'none';
+    dot.style.display = 'none';
+    ring.style.display = 'none';
   }, { once: true });
 })();
