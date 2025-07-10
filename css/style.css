@@ -25,11 +25,11 @@ body {
 }
 
 body, html {
-  cursor: none !important;
+  cursor: auto;
 }
 
 a, button, .social-links, .resume-download-btn, input, textarea, select {
-  cursor: none !important;
+  cursor: pointer;
 }
 
 .flex {
@@ -653,7 +653,7 @@ footer a {
 }
 
 .scope {
-  color: #5918df;
+  color: #24e394;
 }
 
 .about-us .method {
@@ -793,56 +793,9 @@ footer a {
   gap: 0;
 }
 
-/* === Premium Cursor Styles === */
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  background: linear-gradient(135deg, #fff 0%, #8739fa 100%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  box-shadow: 0 0 16px 2px #8739fa88, 0 0 2px 0 #fff;
-  transition: background 0.2s, transform 0.15s cubic-bezier(.4,2,.6,1);
-  will-change: transform, background;
-  mix-blend-mode: lighten;
-}
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 44px;
-  height: 44px;
-  border: 2.5px solid #8739fa;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  box-shadow: 0 0 32px 8px #8739fa44, 0 0 80px 0 #24e3fa33;
-  transition: border 0.2s, box-shadow 0.2s, transform 0.22s cubic-bezier(.4,2,.6,1), opacity 0.18s;
-  will-change: transform, border, box-shadow, opacity;
-  mix-blend-mode: lighten;
-  opacity: 0.85;
-}
-.cursor-dot.cursor-hover, .cursor-ring.cursor-hover {
-  background: linear-gradient(135deg, #24e3fa 0%, #8739fa 100%);
-  border-color: #24e3fa;
-  box-shadow: 0 0 48px 12px #24e3fa99, 0 0 120px 0 #8739fa55;
-  transform: scale(1.25);
-}
-.cursor-ring.cursor-click {
-  animation: cursor-click-ripple 0.4s cubic-bezier(.4,2,.6,1);
-}
-@keyframes cursor-click-ripple {
-  0% { transform: scale(1.2); opacity: 1; }
-  60% { transform: scale(1.6); opacity: 0.7; }
-  100% { transform: scale(2.1); opacity: 0; }
-}
-
 @media (max-width: 768px) {
   body, html,
   a, button, .social-links, .resume-download-btn, input, textarea, select {
-    cursor: none !important;
+    cursor: auto;
   }
 }

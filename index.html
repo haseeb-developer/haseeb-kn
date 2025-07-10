@@ -3,10 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Haseeb Khan's portfolio: Frontend, React.js, Shopify, Next.js developer. View projects, resume, and contact info.">
+  <link rel="canonical" href="https://haseeb-kn.vercel.app/">
   <link rel="shortcut icon" href="./assets/fav.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <title>Home - Haseeb-kn | Portfolio</title>
-  <script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Haseeb Khan",
+    "url": "https://haseeb-kn.vercel.app/",
+    "sameAs": [
+      "https://www.linkedin.com/in/mhaseebdev",
+      "https://github.com/haseeb-developer"
+    ],
+    "jobTitle": "Frontend Developer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Node Agency"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Islamabad",
+      "addressCountry": "PK"
+    }
+  }
+  </script>
+<script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -196,10 +223,6 @@
   </style>
 </head>
 <body class="has-bg homepage">
-  <!-- Premium Cursor Elements -->
-  <div class="cursor-dot"></div>
-  <div class="cursor-ring"></div>
-  <!-- End Premium Cursor Elements -->
   <div class="shape shape--top-main"></div>
   <div class="shape shape--small shape--top-right"></div>
   <div class="shape shape--small shape--top-center"></div>
@@ -226,7 +249,7 @@
   <section class="hero text-center">
     <div class="container main-hero">
       <div class="hero__img" aria-hidden="true">
-        <img src="./assets/pfp1.png" alt="" class="img-fluid">
+        <img src="./assets/pfp1.png" alt="Haseeb Khan profile photo" class="img-fluid" width="100" height="100" loading="lazy">
       </div>
       <div>
         <h1>Hi, <span id="typed5"></span></h1>
@@ -234,7 +257,7 @@
         <p>Through consistent practice, I design sleek, high-performance software that quietly sets new standards.</p>
         <!-- <p>With continuous practice, I build software that's sleek and powerful, setting new standards effortlessly.</p> -->
         <ul class="social-icons">
-          <a href="https://www.linkedin.com/in/mhaseebdev" target="_blank" class="social-links">
+          <a href="https://www.linkedin.com/in/mhaseebdev" target="_blank" class="social-links" rel="noopener noreferrer" aria-label="LinkedIn profile">
             <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M32 10.3333V23.6667C32 28.269 28.269 32 23.6667 32H10.3333C5.73097 32 2 28.269 2 23.6667V10.3333C2 5.73097 5.73097 2 10.3333 2H23.6667C28.269 2 32 5.73097 32 10.3333Z" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
               <path d="M8.66675 25.3334V19.5V13.6667" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -243,7 +266,7 @@
             </svg>
           </a>
       
-          <a href="https://codepen.io/haseeb-kn" target="_blank" class="social-links">
+          <a href="https://codepen.io/haseeb-kn" target="_blank" class="social-links" rel="noopener noreferrer" aria-label="CodePen profile">
             <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M32 12V22" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
               <path d="M2 22V12" stroke="#777779" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -254,7 +277,7 @@
             </svg>
           </a>
 
-          <a href="https://github.com/haseeb-developer" target="_blank" class="social-links">
+          <a href="https://github.com/haseeb-developer" target="_blank" class="social-links" rel="noopener noreferrer" aria-label="GitHub profile">
            <svg width="44" height="44" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path 
                 d="M17 2C10.373 2 5 7.373 5 14C5 19.523 8.438 24.02 13.205 25.54C13.805 25.65 14.025 25.29 14.025 24.97C14.025 24.68 14.015 23.93 14.01 22.89C10.672 23.54 9.968 21.4 9.968 21.4C9.422 20.03 8.633 19.65 8.633 19.65C7.546 18.92 8.718 18.94 8.718 18.94C9.922 19.03 10.555 20.18 10.555 20.18C11.63 22.03 13.428 21.5 14.172 21.2C14.282 20.43 14.59 19.91 14.932 19.61C12.23 19.31 9.39 18.28 9.39 13.62C9.39 12.3 9.855 11.24 10.63 10.41C10.5 10.11 10.09 8.84 10.75 7.13C10.75 7.13 11.75 6.81 14.01 8.39C14.96 8.12 15.98 7.99 17 7.99C18.02 7.99 19.04 8.12 19.99 8.39C22.25 6.81 23.25 7.13 23.25 7.13C23.91 8.84 23.5 10.11 23.37 10.41C24.145 11.24 24.61 12.3 24.61 13.62C24.61 18.29 21.765 19.31 19.06 19.6C19.49 19.98 19.875 20.72 19.875 21.87C19.875 23.5 19.86 24.63 19.86 24.97C19.86 25.29 20.075 25.66 20.685 25.54C25.455 24.02 29 19.68 29 14.5C29 7.873 23.627 2 17 2Z" 
@@ -317,7 +340,7 @@
       <span class="dot">··</span>}
       <span class="dot">··</span><span class="propname">myinfo()</span> {
       <span class="dot">····</span><span class="method">return</span> [
-      <span class="dot">······</span>{ <span class="string">'Resume to Download'     : <a href="./assets/resume-haseeb.pdf" target="_blank" download="" class="resume-download-btn" data-tooltip="resume-haseeb.pdf">'Download'</a> </span>}
+      <span class="dot">······</span>{ <span class="string">'Resume to Download'     : <a href="./assets/resume-haseeb.pdf" target="_blank" download="" class="resume-download-btn" data-tooltip="resume-haseeb.pdf" rel="noopener noreferrer">'Download'</a> </span>}
       <span class="dot">····</span>]
       <span class="dot">··</span>}
       <span class="dot">··</span><span class="propname">funProjects()</span> {
@@ -397,8 +420,8 @@
   gtag('config', 'G-TJBTDTNFWV');
 </script>
 
-  <script src="js/gsap.min.js"></script>
-  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-  <script src="js/main.js"></script>
+<script defer src="/js/gsap.min.js"></script>
+<script defer src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script defer src="/js/main.js"></script>
 </body>
 </html>
