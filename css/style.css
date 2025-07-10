@@ -24,6 +24,14 @@ body {
   /* overflow-x: hidden; */
 }
 
+body, html {
+  cursor: none !important;
+}
+
+a, button, .social-links, .resume-download-btn, input, textarea, select {
+  cursor: none !important;
+}
+
 .flex {
   display: flex;
 }
@@ -730,8 +738,8 @@ footer a {
 .custom-tooltip {
   position: absolute;
   z-index: 9999;
-  background: #fff;
-  color: #111;
+  background: linear-gradient(135deg, #24e3fa 0%, #8739fa 100%);
+  color: #fff;
   padding: 0.6em 1.2em;
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
@@ -779,4 +787,38 @@ footer a {
 }
 .custom-tooltip:has(.tooltip-label:empty) {
   gap: 0;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;  
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(135, 57, 250, 0.18);
+  border: 2px solid #8739fa;
+  box-shadow: 0 0 24px 6px #8739fa66, 0 0 60px 0 #24e3fa33;
+  pointer-events: none;
+  z-index: 9999;
+  transition: 
+    width 0.22s cubic-bezier(.4,2,.6,1),
+    height 0.22s cubic-bezier(.4,2,.6,1),
+    background 0.22s cubic-bezier(.4,2,.6,1),
+    border 0.22s cubic-bezier(.4,2,.6,1),
+    box-shadow 0.22s cubic-bezier(.4,2,.6,1);
+  mix-blend-mode: lighten;
+  will-change: transform, width, height, box-shadow;
+}
+.custom-cursor.cursor-hover {
+  width: 48px;
+  height: 48px;
+  background: rgba(36, 227, 250, 0.18);
+  border: 2.5px solid #24e3fa;
+  box-shadow: 0 0 40px 10px #24e3fa99, 0 0 80px 0 #8739fa55;
+}
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none;
+  }
 }

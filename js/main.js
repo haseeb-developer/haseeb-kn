@@ -122,3 +122,27 @@ window.addEventListener("scroll", function () {
     link.addEventListener('blur', hideTooltip);
   });
 })();
+
+// === Custom Animated Cursor ===
+(function() {
+  const cursor = document.querySelector('.custom-cursor');
+  if (!cursor) return;
+  // Instantly move cursor to mouse position
+  function moveCursor(e) {
+    const rect = cursor.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    cursor.style.transform = `translate(${e.clientX - w/2}px, ${e.clientY - h/2}px)`;
+  }
+  document.addEventListener('mousemove', moveCursor);
+  // Hover effect on interactive elements
+  const hoverables = document.querySelectorAll('a, button, .social-links, .resume-download-btn');
+  hoverables.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+  });
+  // Hide on touch devices
+  window.addEventListener('touchstart', () => {
+    cursor.style.display = 'none';
+  }, { once: true });
+})();

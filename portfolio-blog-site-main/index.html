@@ -530,12 +530,14 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: rgba(0, 240, 255, 0.5);
       pointer-events: none;
       transform: translate(-50%, -50%);
-      mix-blend-mode: screen;
       z-index: 9999;
       transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+      mix-blend-mode: difference;
+      filter: grayscale(1) invert(1);
+      background: white;
+      border: 1.5px solid rgba(0,0,0,0.15);
     }
 
     /* Responsive Adjustments */
@@ -924,7 +926,6 @@
           gsap.to(cursorFollower, {
             width: 40,
             height: 40,
-            backgroundColor: 'rgba(0, 240, 255, 0.2)',
             duration: 0.3
           });
         });
@@ -933,7 +934,6 @@
           gsap.to(cursorFollower, {
             width: 20,
             height: 20,
-            backgroundColor: 'rgba(0, 240, 255, 0.5)',
             duration: 0.3
           });
         });
