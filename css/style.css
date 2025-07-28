@@ -799,3 +799,9 @@ footer a {
     cursor: auto;
   }
 }
+
+.highlight-since {
+  background: linear-gradient(90deg, #24e3fa33 0%, #8739fa33 100%);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
