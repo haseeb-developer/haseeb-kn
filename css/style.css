@@ -801,7 +801,7 @@ footer a {
 }
 
 .highlight-since {
-  background: linear-gradient(90deg, #24e3fa33 0%, #8739fa33 100%);
+  background: linear-gradient(90deg, #24e5faa4 0%, #6905ff33 100%);
   border-radius: 4px;
   transition: background 0.2s;
 }
