@@ -130,6 +130,7 @@ window.addEventListener("scroll", function () {
   let tooltipTech;
   let activeSince = null;
   let intervalId = null;
+  let backgroundIntervalId = null;
 
   function parseDate(str) {
     // Accepts MM/YYYY or Mon YYYY or YYYY
@@ -152,27 +153,61 @@ window.addEventListener("scroll", function () {
 
   function calculateDuration(startStr, endStr) {
     const start = parseDate(startStr.trim());
+    // Always use the current moment for 'Present' to ensure real-time accuracy
     const end = /present/i.test(endStr.trim()) ? new Date() : parseDate(endStr.trim());
     if (!start || !end) return null;
+    
+    // Calculate the difference in milliseconds for precise calculation
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Calculate years, months, and days more accurately
     let years = end.getFullYear() - start.getFullYear();
     let months = end.getMonth() - start.getMonth();
     let days = end.getDate() - start.getDate();
+    
+    // Adjust for negative days
     if (days < 0) {
       months--;
-      // Get days in previous month
       const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
       days += prevMonth.getDate();
     }
+    
+    // Adjust for negative months
     if (months < 0) {
       years--;
       months += 12;
     }
+    
+    // Build the result string
     let result = [];
     if (years > 0) result.push(`${years} year${years > 1 ? 's' : ''}`);
     if (months > 0) result.push(`${months} month${months > 1 ? 's' : ''}`);
     if (days > 0) result.push(`${days} day${days > 1 ? 's' : ''}`);
     if (result.length === 0) result.push('0 days');
+    
     return result.join(' ');
+  }
+
+  function updateSinceDisplay(el) {
+    const range = el.getAttribute('data-since');
+    if (!range) return;
+    const [start, end] = range.split('-').map(s => s.trim());
+    // Only update the display if it's not already showing the correct format
+    const currentText = el.textContent.trim();
+    const expectedText = `'${start} - ${end}'`;
+    if (currentText !== expectedText) {
+      el.textContent = expectedText;
+    }
+  }
+
+  function updateAllSinceDisplays() {
+    document.querySelectorAll('.since-duration').forEach(el => {
+      const range = el.getAttribute('data-since');
+      if (range && /present/i.test(range)) {
+        updateSinceDisplay(el);
+      }
+    });
   }
 
   function showSinceTooltip(e) {
@@ -231,10 +266,26 @@ window.addEventListener("scroll", function () {
     tooltip.style.top = top + 'px';
   }
 
+  // Initialize and start background updates for 'Present' dates
+  function initializeSinceUpdates() {
+    // Update all 'Present' displays immediately
+    updateAllSinceDisplays();
+    
+    // Set up background interval to update 'Present' displays every 30 seconds
+    backgroundIntervalId = setInterval(updateAllSinceDisplays, 30000); // update every 30 seconds
+  }
+
   document.querySelectorAll('.since-duration').forEach(el => {
     el.addEventListener('mouseenter', showSinceTooltip);
     el.addEventListener('mousemove', positionTooltip);
     el.addEventListener('mouseleave', hideSinceTooltip);
     el.addEventListener('blur', hideSinceTooltip);
   });
+
+  // Start the background updates when the page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeSinceUpdates);
+  } else {
+    initializeSinceUpdates();
+  }
 })();
