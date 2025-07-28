@@ -49,15 +49,24 @@ window.addEventListener("scroll", function () {
   }
 });
 
-// Tooltip system (shared for both types)
+// Tooltip for portfolio links
 (function() {
-  let tooltip = null;
-  let tooltipLabel = null;
-  let tooltipTech = null;
-  let activeElement = null;
-  let intervalId = null;
+  let tooltip;
+  let tooltipLabel;
+  let tooltipTech;
+  let activeLink = null;
 
-  function ensureTooltip() {
+  function showTooltip(e) {
+    const link = e.currentTarget;
+    const text = link.getAttribute('data-tooltip');
+    if (!text) return;
+    // If the text is just a filename or single word, show only that
+    let label = '';
+    let tech = text;
+    if (text.startsWith('Developed in:')) {
+      label = 'Developed in:';
+      tech = text.replace(/^Developed in:\s*/i, '');
+    }
     if (!tooltip) {
       tooltip = document.createElement('div');
       tooltip.className = 'custom-tooltip';
@@ -69,70 +78,73 @@ window.addEventListener("scroll", function () {
       tooltip.appendChild(tooltipTech);
       document.body.appendChild(tooltip);
     }
-  }
-
-  // --- Portfolio Tooltip ---
-  function showTooltip(e) {
-    const link = e.currentTarget;
-    const text = link.getAttribute('data-tooltip');
-    if (!text) return;
-    let label = '';
-    let tech = text;
-    if (text.startsWith('Developed in:')) {
-      label = 'Developed in:';
-      tech = text.replace(/^Developed in:\s*/i, '');
-    }
-    ensureTooltip();
     tooltipLabel.textContent = label;
     tooltipTech.textContent = tech;
     tooltip.classList.add('active');
-    activeElement = link;
-    positionTooltip(e, link);
+    activeLink = link;
+    positionTooltip(e);
   }
 
   function hideTooltip() {
     if (tooltip) {
       tooltip.classList.remove('active');
-      activeElement = null;
+      activeLink = null;
     }
   }
 
-  function positionTooltip(e, el) {
-    if (!tooltip || !el) return;
-    // Make tooltip visible but hidden to measure size
-    tooltip.style.visibility = 'hidden';
-    tooltip.style.display = 'block';
-    const tooltipRect = tooltip.getBoundingClientRect();
-    tooltip.style.visibility = '';
-    tooltip.style.display = '';
-    const rect = el.getBoundingClientRect();
+  function positionTooltip(e) {
+    if (!tooltip || !activeLink) return;
+    const rect = activeLink.getBoundingClientRect();
     const scrollY = window.scrollY || window.pageYOffset;
+    const scrollX = window.scrollX || window.pageXOffset;
+    // Center tooltip above the link, follow mouse X
+    const tooltipRect = tooltip.getBoundingClientRect();
     let left = e.clientX - tooltipRect.width / 2;
+    // Clamp to viewport
     left = Math.max(8, Math.min(left, window.innerWidth - tooltipRect.width - 8));
     let top = rect.top + scrollY - tooltipRect.height - 12;
     tooltip.style.left = left + 'px';
     tooltip.style.top = top + 'px';
   }
 
-  document.querySelectorAll('a[data-tooltip], span[data-tooltip]').forEach(link => {
+  document.querySelectorAll('a[data-tooltip]').forEach(link => {
     link.addEventListener('mouseenter', showTooltip);
-    link.addEventListener('mousemove', function(e) { positionTooltip(e, link); });
+    link.addEventListener('mousemove', positionTooltip);
     link.addEventListener('mouseleave', hideTooltip);
     link.addEventListener('blur', hideTooltip);
   });
 
-  // --- Since-duration Tooltip ---
+  // Also support span[data-tooltip] for fun projects
+  document.querySelectorAll('span[data-tooltip]').forEach(link => {
+    link.addEventListener('mouseenter', showTooltip);
+    link.addEventListener('mousemove', positionTooltip);
+    link.addEventListener('mouseleave', hideTooltip);
+    link.addEventListener('blur', hideTooltip);
+  });
+})();
+
+// Tooltip for since-duration (work experience) - dynamic duration calculation
+(function() {
+  let tooltip;
+  let tooltipLabel;
+  let tooltipTech;
+  let activeSince = null;
+  let intervalId = null;
+
   function parseDate(str) {
+    // Accepts MM/YYYY or Mon YYYY or YYYY
     if (/present/i.test(str)) return new Date();
     if (/\d{2}\/\d{4}/.test(str)) {
+      // MM/YYYY
       const [m, y] = str.split('/').map(Number);
-      if (m < 1 || m > 12) return null;
       return new Date(y, m - 1, 1);
     }
     if (/^[A-Za-z]{3,9} \d{4}$/.test(str)) {
+      // e.g. Jan 2025
       return new Date(str + ' 01');
     }
     if (/^\d{4}$/.test(str)) {
+      // e.g. 2023
       return new Date(Number(str), 0, 1);
     }
     return null;
@@ -147,6 +159,7 @@ window.addEventListener("scroll", function () {
     let days = end.getDate() - start.getDate();
     if (days < 0) {
       months--;
+      // Get days in previous month
       const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
       days += prevMonth.getDate();
     }
@@ -167,18 +180,28 @@ window.addEventListener("scroll", function () {
     const range = el.getAttribute('data-since');
     if (!range) return;
     const [start, end] = range.split('-').map(s => s.trim());
-    ensureTooltip();
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.className = 'custom-tooltip';
+      tooltipLabel = document.createElement('span');
+      tooltipLabel.className = 'tooltip-label';
+      tooltipTech = document.createElement('span');
+      tooltipTech.className = 'tooltip-tech';
+      tooltip.appendChild(tooltipLabel);
+      tooltip.appendChild(tooltipTech);
+      document.body.appendChild(tooltip);
+    }
     tooltipLabel.textContent = 'Duration:';
     function updateTooltip() {
-      const duration = calculateDuration(start, end);
-      tooltipTech.textContent = duration === null ? 'ERROR! Please check the date format.' : duration;
+      tooltipTech.textContent = calculateDuration(start, end);
     }
     updateTooltip();
     tooltip.classList.add('active');
-    activeElement = el;
-    positionTooltip(e, el);
+    activeSince = el;
+    positionTooltip(e);
+    // If 'Present', update every second for a live ticking effect
     if (/present/i.test(end)) {
-      intervalId = setInterval(updateTooltip, 1000);
+      intervalId = setInterval(updateTooltip, 1000); // update every second
     }
     el.classList.add('highlight-since');
   }
@@ -186,8 +209,8 @@ window.addEventListener("scroll", function () {
   function hideSinceTooltip() {
     if (tooltip) {
       tooltip.classList.remove('active');
-      activeElement && activeElement.classList.remove('highlight-since');
-      activeElement = null;
+      activeSince && activeSince.classList.remove('highlight-since');
+      activeSince = null;
     }
     if (intervalId) {
       clearInterval(intervalId);
@@ -195,9 +218,22 @@ window.addEventListener("scroll", function () {
     }
   }
 
+  function positionTooltip(e) {
+    if (!tooltip || !activeSince) return;
+    const rect = activeSince.getBoundingClientRect();
+    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollX = window.scrollX || window.pageXOffset;
+    const tooltipRect = tooltip.getBoundingClientRect();
+    let left = e.clientX - tooltipRect.width / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - tooltipRect.width - 8));
+    let top = rect.top + scrollY - tooltipRect.height - 12;
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+
   document.querySelectorAll('.since-duration').forEach(el => {
     el.addEventListener('mouseenter', showSinceTooltip);
-    el.addEventListener('mousemove', function(e) { positionTooltip(e, el); });
+    el.addEventListener('mousemove', positionTooltip);
     el.addEventListener('mouseleave', hideSinceTooltip);
     el.addEventListener('blur', hideSinceTooltip);
   });
