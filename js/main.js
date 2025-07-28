@@ -135,19 +135,36 @@ window.addEventListener("scroll", function () {
   function parseDate(str) {
     // Accepts MM/YYYY or Mon YYYY or YYYY
     if (/present/i.test(str)) return new Date();
+    
     if (/\d{2}\/\d{4}/.test(str)) {
       // MM/YYYY
       const [m, y] = str.split('/').map(Number);
+      // Validate month (1-12) and year (reasonable range)
+      if (m < 1 || m > 12 || y < 1900 || y > 2100) {
+        return null; // Invalid date
+      }
       return new Date(y, m - 1, 1);
     }
+    
     if (/^[A-Za-z]{3,9} \d{4}$/.test(str)) {
       // e.g. Jan 2025
-      return new Date(str + ' 01');
+      const date = new Date(str + ' 01');
+      // Check if the date is valid
+      if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 2100) {
+        return null; // Invalid date
+      }
+      return date;
     }
+    
     if (/^\d{4}$/.test(str)) {
       // e.g. 2023
-      return new Date(Number(str), 0, 1);
+      const y = Number(str);
+      if (y < 1900 || y > 2100) {
+        return null; // Invalid year
+      }
+      return new Date(y, 0, 1);
     }
+    
     return null;
   }
 
@@ -215,6 +232,7 @@ window.addEventListener("scroll", function () {
     const range = el.getAttribute('data-since');
     if (!range) return;
     const [start, end] = range.split('-').map(s => s.trim());
+    
     if (!tooltip) {
       tooltip = document.createElement('div');
       tooltip.className = 'custom-tooltip';
@@ -226,18 +244,28 @@ window.addEventListener("scroll", function () {
       tooltip.appendChild(tooltipTech);
       document.body.appendChild(tooltip);
     }
+    
     tooltipLabel.textContent = 'Duration:';
+    
     function updateTooltip() {
-      tooltipTech.textContent = calculateDuration(start, end);
+      const duration = calculateDuration(start, end);
+      if (duration === null) {
+        tooltipTech.textContent = 'ERROR: Invalid date format';
+      } else {
+        tooltipTech.textContent = duration;
+      }
     }
+    
     updateTooltip();
     tooltip.classList.add('active');
     activeSince = el;
     positionTooltip(e);
+    
     // If 'Present', update every second for a live ticking effect
     if (/present/i.test(end)) {
       intervalId = setInterval(updateTooltip, 1000); // update every second
     }
+    
     el.classList.add('highlight-since');
   }
 
