@@ -133,80 +133,76 @@ window.addEventListener("scroll", function () {
   let backgroundIntervalId = null;
 
   function parseDate(str) {
-    // Accepts DD/MM/YYYY, MM/YYYY, Mon YYYY, or YYYY
+    // Accepts MM/YYYY or Mon YYYY or YYYY
     if (/present/i.test(str)) return new Date();
-
-    // DD/MM/YYYY
-    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(str)) {
-      const [d, m, y] = str.split('/').map(Number);
-      if (m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > 2100) {
-        return null; // Invalid date
-      }
-      // Check for valid day in month
-      const date = new Date(y, m - 1, d);
-      if (date.getMonth() !== m - 1 || date.getDate() !== d || date.getFullYear() !== y) {
-        return null; // Invalid day for month
-      }
-      return date;
-    }
-
-    // MM/YYYY
-    if (/^\d{2}\/\d{4}$/.test(str)) {
+    
+    if (/\d{2}\/\d{4}/.test(str)) {
+      // MM/YYYY
       const [m, y] = str.split('/').map(Number);
+      // Validate month (1-12) and year (reasonable range)
       if (m < 1 || m > 12 || y < 1900 || y > 2100) {
         return null; // Invalid date
       }
       return new Date(y, m - 1, 1);
     }
-
-    // Mon YYYY
+    
     if (/^[A-Za-z]{3,9} \d{4}$/.test(str)) {
+      // e.g. Jan 2025
       const date = new Date(str + ' 01');
+      // Check if the date is valid
       if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 2100) {
-        return null;
+        return null; // Invalid date
       }
       return date;
     }
-
-    // YYYY
+    
     if (/^\d{4}$/.test(str)) {
+      // e.g. 2023
       const y = Number(str);
       if (y < 1900 || y > 2100) {
-        return null;
+        return null; // Invalid year
       }
       return new Date(y, 0, 1);
     }
-
+    
     return null;
   }
 
   function calculateDuration(startStr, endStr) {
     const start = parseDate(startStr.trim());
+    // Always use the current moment for 'Present' to ensure real-time accuracy
     const end = /present/i.test(endStr.trim()) ? new Date() : parseDate(endStr.trim());
     if (!start || !end) return null;
-
-    // If start is in the future
-    if (start > end) return 'Not started yet';
-
+    
+    // Calculate the difference in milliseconds for precise calculation
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Calculate years, months, and days more accurately
     let years = end.getFullYear() - start.getFullYear();
     let months = end.getMonth() - start.getMonth();
     let days = end.getDate() - start.getDate();
-
+    
+    // Adjust for negative days
     if (days < 0) {
       months--;
       const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
       days += prevMonth.getDate();
     }
+    
+    // Adjust for negative months
     if (months < 0) {
       years--;
       months += 12;
     }
-
+    
+    // Build the result string
     let result = [];
     if (years > 0) result.push(`${years} year${years > 1 ? 's' : ''}`);
     if (months > 0) result.push(`${months} month${months > 1 ? 's' : ''}`);
     if (days > 0) result.push(`${days} day${days > 1 ? 's' : ''}`);
     if (result.length === 0) result.push('0 days');
+    
     return result.join(' ');
   }
 
@@ -321,57 +317,3 @@ window.addEventListener("scroll", function () {
     initializeSinceUpdates();
   }
 })();
-
-function formatSinceText(dataSince) {
-  // Accepts 'DD/MM/YYYY - Present' or 'DD/MM/YYYY - DD/MM/YYYY'
-  const [start, end] = dataSince.split('-').map(s => s.trim());
-  let startText = '';
-  let endText = '';
-  // Extract MM/YYYY from DD/MM/YYYY
-  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(start)) {
-    const [, m, y] = start.match(/^(\d{1,2})\/(\d{4})$/) || [];
-    if (!m || !y) {
-      const [d, m2, y2] = start.split('/');
-      startText = `${m2}/${y2}`;
-    } else {
-      startText = `${m}/${y}`;
-    }
-  } else if (/^\d{2}\/\d{4}$/.test(start)) {
-    startText = start;
-  } else {
-    startText = start;
-  }
-  // End
-  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(end)) {
-    const [, m, y] = end.match(/^(\d{1,2})\/(\d{4})$/) || [];
-    if (!m || !y) {
-      const [d, m2, y2] = end.split('/');
-      endText = `${m2}/${y2}`;
-    } else {
-      endText = `${m}/${y}`;
-    }
-  } else {
-    endText = end;
-  }
-  return `${startText} - ${endText}`;
-}
-
-function updateSinceVisibleText() {
-  document.querySelectorAll('.since-duration').forEach(el => {
-    const dataSince = el.getAttribute('data-since');
-    if (dataSince) {
-      // Only update if the text doesn't already match
-      const formatted = formatSinceText(dataSince);
-      if (el.textContent.trim() !== formatted) {
-        el.textContent = formatted;
-      }
-    }
-  });
-}
-
-// Run on page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', updateSinceVisibleText);
-} else {
-  updateSinceVisibleText();
-}
