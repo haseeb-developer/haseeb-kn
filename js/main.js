@@ -94,7 +94,7 @@ window.addEventListener("scroll", function () {
 
   function positionTooltip(e) {
     if (!tooltip || !activeLink) return;
-    const rect = activeLink.getBoundingClientRect();
+    const rect = activeLink.getBoundingClientRect();  
     const scrollY = window.scrollY || window.pageYOffset;
     const scrollX = window.scrollX || window.pageXOffset;
     // Center tooltip above the link, follow mouse X
