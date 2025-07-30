@@ -202,13 +202,20 @@
       bottom: 120%;
       transform: translateX(-50%) translateY(10px);
       opacity: 0;
-      background: linear-gradient(135deg, #0371d1 0%, #8966cd 100%);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       color: #fff;
       font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
       font-size: 1em;
       padding: 0.55em 1.2em;
-      border-radius: 7px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      border-radius: 12px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
       white-space: nowrap;
       transition: opacity 0.22s cubic-bezier(.4,1.6,.6,1), transform 0.32s cubic-bezier(.4,1.6,.6,1);
       display: flex;
@@ -216,6 +223,24 @@
       font-weight: 500;
       letter-spacing: 0.01em;
       z-index: 10;
+      overflow: hidden;
+    }
+    
+    .resume-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      transform: skewX(-15deg);
+      transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .resume-tooltip::before {
       content: '';
@@ -225,14 +250,19 @@
       transform: translateX(-50%);
       border-width: 7px 7px 0 7px;
       border-style: solid;
-      border-color: #8739fa transparent transparent transparent;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+      border-color: rgba(255, 255, 255, 0.18) transparent transparent transparent;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
     }
     .resume-tooltip-wrapper:hover .resume-tooltip,
     .resume-tooltip-wrapper:focus-within .resume-tooltip {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       pointer-events: auto;
+    }
+    
+    .resume-tooltip-wrapper:hover .resume-tooltip::after,
+    .resume-tooltip-wrapper:focus-within .resume-tooltip::after {
+      left: 100%;
     }
     .resume-tooltip {
       animation: none;
@@ -258,11 +288,18 @@
     .custom-tooltip {
       position: absolute;
       z-index: 9999;
-      background: linear-gradient(135deg, #8739fa 0%, #5918df 100%);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(24px) saturate(200%);
+      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       padding: 0.6em 1.2em;
-      border-radius: 8px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      border-radius: 16px;
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
       font-size: 1em;
       pointer-events: none;
       opacity: 0;
@@ -275,9 +312,30 @@
       overflow: hidden;
       gap: 0.5em;
     }
+    
+    .custom-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.5),
+        transparent
+      );
+      transform: skewX(-20deg);
+      transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .custom-tooltip.active {
       opacity: 1;
       transform: translateY(-16px) scale(1.03);
+    }
+    
+    .custom-tooltip.active::after {
+      left: 100%;
     }
     .custom-tooltip .tooltip-label {
       opacity: 0;
@@ -321,13 +379,20 @@
       bottom: 120%;
       transform: translateX(-50%) translateY(10px);
       opacity: 0; 
-      background: #fff;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: #181c1b;
       font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
       font-size: 1em;
       padding: 0.55em 1.2em;
-      border-radius: 7px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      border-radius: 12px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
       white-space: nowrap;
       transition: opacity 0.22s cubic-bezier(.4,1.6,.6,1), transform 0.32s cubic-bezier(.4,1.6,.6,1), background 0.22s cubic-bezier(.4,1.6,.6,1);
       display: flex;
@@ -336,6 +401,23 @@
       letter-spacing: 0.01em;
       z-index: 10;
       overflow: hidden;
+    }
+    
+    .resolution-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+      );
+      transform: skewX(-12deg);
+      transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .resolution-tooltip-inner {
       opacity: 0;
@@ -352,8 +434,13 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       pointer-events: auto;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.12);
       transition-delay: 0s, 0s, 0s;
+    }
+    
+    .resolution-fun-label:hover .resolution-tooltip::after,
+    .resolution-fun-label:focus .resolution-tooltip::after {
+      left: 100%;
     }
     .resolution-fun-label:hover .resolution-tooltip-inner,
     .resolution-fun-label:focus .resolution-tooltip-inner {
