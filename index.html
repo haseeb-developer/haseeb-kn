@@ -448,6 +448,62 @@
       transform: translateX(0);
       transition-delay: 0.13s, 0.13s;
     }
+    .email-link {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+      position: relative;
+      -webkit-tap-highlight-color: rgba(135, 57, 250, 0.3);
+    }
+    .email-link:hover,
+    .email-link:focus {
+      color: #8739FA;
+      outline: none;
+    }
+    .phone-link {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+      position: relative;
+      -webkit-tap-highlight-color: rgba(135, 57, 250, 0.3);
+    }
+    .phone-link:hover,
+    .phone-link:focus {
+      color: #8739FA;
+      outline: none;
+    }
+    .phone-link:active {
+      transform: scale(0.98);
+    }
+    @media (max-width: 768px) {
+      .phone-link {
+        -webkit-tap-highlight-color: rgba(135, 57, 250, 0.4);
+        padding: 2px 4px;
+        margin: -2px -4px;
+        border-radius: 4px;
+      }
+      .phone-link:active {
+        background-color: rgba(135, 57, 250, 0.1);
+      }
+    }
+    .email-link:active {
+      transform: scale(0.98);
+    }
+    @media (max-width: 768px) {
+      .email-link {
+        -webkit-tap-highlight-color: rgba(135, 57, 250, 0.4);
+        padding: 2px 4px;
+        margin: -2px -4px;
+        border-radius: 4px;
+      }
+      .email-link:active {
+        background-color: rgba(135, 57, 250, 0.1);
+      }
+    }
   </style>
 </head>
 <body class="has-bg homepage">
@@ -466,7 +522,7 @@
         </svg>
       </a>
 
-       <a href="./portfolio-blog-site-main/index.html" aria-label="Haseebkn Portfolio" target="_blank">
+       <a href="./blogs" aria-label="Blog">
         Blog
       </a>
     
@@ -532,8 +588,8 @@
       <span class="dot">··</span><span class="method">constructor()</span> {
       <span class="dot">····</span><span class="scope">this</span>.<span class="vname">name</span> = 'Haseeb Khan'
       <span class="dot">····</span><span class="scope">this</span>.<span class="vname">address</span> = 'Islamabad'
-      <span class="dot">····</span><span class="scope">this</span>.<span class="vname">number</span> = '+92 314 7945594'
-      <span class="dot">····</span><span class="scope">this</span>.<span class="vname">email</span> = 'haseeb.devv@gmail.com'
+      <span class="dot">····</span><span class="scope">this</span>.<span class="vname">number</span> = <a href="tel:+923147945594" class="phone-link" aria-label="Call Haseeb Khan">'+92 314 7945594'</a>
+      <span class="dot">····</span><span class="scope">this</span>.<span class="vname">email</span> = <a href="mailto:haseeb.devv@gmail.com" class="email-link" aria-label="Send email to Haseeb Khan">'haseeb.devv@gmail.com'</a>
       <span class="dot">··</span>}
       <span class="dot">··</span><span class="propname">workExperience()</span> {
       <span class="dot">····</span><span class="method">return</span> [
@@ -564,8 +620,8 @@
       <span class="dot">······</span>{ <span class="string">'Archejerky'             : <a href="https://archerjerky.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://archerjerky.com/'</a> </span>}
       <span class="dot">······</span>{ <span class="string">'HetiProducts'           : <a href="https://hetiproducts.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://hetiproducts.com/'</a> </span>}
       <span class="dot">······</span><span class="separater comment">// Web Apps and Projects</span>
-      <span class="dot">······</span>{ <span class="string">'Ecommerce Store'        : <a href="https://ecommerce-haseeb.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, Cart System, User Registration">'https://ecommerce-haseeb.vercel.app/'</a> </span>}
-      <span class="dot">······</span>{ <span class="string">'Secure Dev Platform'    : <a href="https://devsafe.vercel.app/" target="_blank" data-tooltip="Developed in: Clerk, Supabase, TypeScript">'https://devsafe.vercel.app/'</a> </span>}
+      <span class="dot">······</span>{ <span class="string">'Ecommerce Store'        : <a href="https://ecommerce-haseeb.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, Cart System">'https://ecommerce-haseeb.vercel.app/'</a> </span>}
+      <span class="dot">······</span>{ <span class="string">'Secure Dev Platform'    : <a href="https://devsafe.vercel.app/" target="_blank" data-tooltip="Developed in: Next JS, Clerk, Supabase">'https://devsafe.vercel.app/'</a> </span>}
       <span class="dot">······</span>{ <span class="string">'Secure Notes'           : <a href="https://secure-notes1.vercel.app" target="_blank" data-tooltip="Developed in: Next JS, Framer Motion, TS, Clerk">'https://secure-notes1.vercel.app/'</a> </span>}
       <span class="dot">······</span>{ <span class="string">'KeyVault API Manager'   : <a href="https://keyvault-api-manager.vercel.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://keyvault-api-manager.vercel.app/'</a> </span>}
       <span class="dot">······</span>{ <span class="string">'Skycast Weather'        : <a href="https://skycasts-weather.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, TS, Framer Motion">'https://skycasts-weather.vercel.app/'</a> </span>}
@@ -596,8 +652,8 @@
     <span class="dot">··</span><span class="method">constructor()</span> {
     <span class="dot">····</span><span class="scope">this</span>.<span class="vname">name</span> = 'Haseeb Khan'
     <span class="dot">····</span><span class="scope">this</span>.<span class="vname">address</span> = Islamabad
-    <span class="dot">····</span><span class="scope">this</span>.<span class="vname">number</span> = '+92 314 7945594'
-    <span class="dot">····</span><span class="scope">this</span>.<span class="vname">email</span> = 'haseeb.devv@gmail.com'
+    <span class="dot">····</span><span class="scope">this</span>.<span class="vname">number</span> = <a href="tel:+923147945594" class="phone-link" aria-label="Call Haseeb Khan">'+92 314 7945594'</a>
+    <span class="dot">····</span><span class="scope">this</span>.<span class="vname">email</span> = <a href="mailto:haseeb.devv@gmail.com" class="email-link" aria-label="Send email to Haseeb Khan">'haseeb.devv@gmail.com'</a>
     <span class="dot">··</span>}
     <span class="dot">··</span><span class="propname">workExperience()</span> {
     <span class="dot">····</span><span class="method">return</span> [
@@ -628,8 +684,8 @@
     <span class="dot">······</span>{ <span class="string">'HetiProducts'           : <a href="https://hetiproducts.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://hetiproducts.com/'</a> </span>}
     <span class="dot">······</span>{ <span class="string">'Archejerky'             : <a href="https://archerjerky.com/" target="_blank" data-tooltip="Developed in: Shopify">'https://archerjerky.com/'</a> </span>}
     <span class="dot">······</span><span class="separater comment">// Web Apps and Projects</span>
-    <span class="dot">······</span>{ <span class="string">'Ecommerce Haseeb'       : <a href="https://ecommerce-haseeb.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, Cart System, User Registration">'https://ecommerce-haseeb.vercel.app/'</a> </span>}
-    <span class="dot">······</span>{ <span class="string">'Secure Dev Platform'    : <a href="https://devsafe.vercel.app/" target="_blank" data-tooltip="Developed in: Clerk, Supabase, TypeScript">'https://devsafe.vercel.app/'</a> </span>}
+    <span class="dot">······</span>{ <span class="string">'Ecommerce Haseeb'       : <a href="https://ecommerce-haseeb.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, Cart System">'https://ecommerce-haseeb.vercel.app/'</a> </span>}
+    <span class="dot">······</span>{ <span class="string">'Secure Dev Platform'    : <a href="https://devsafe.vercel.app/" target="_blank" data-tooltip="Developed in: Next JS, Clerk, Supabase">'https://devsafe.vercel.app/'</a> </span>}
     <span class="dot">······</span>{ <span class="string">'Secure Notes'           : <a href="https://secure-notes1.vercel.app" target="_blank" data-tooltip="Developed in: Next JS, Framer Motion, TS, Clerk">'https://secure-notes1.vercel.app/'</a> </span>}
     <span class="dot">······</span>{ <span class="string">'KeyVault API Manager'   : <a href="https://keyvault-api-manager.vercel.app/" target="_blank" data-tooltip="Developed in: JavaScript">'https://keyvault-api-manager.vercel.app/'</a> </span>}
     <span class="dot">······</span>{ <span class="string">'Skycast Weather'        : <a href="https://skycasts-weather.vercel.app/" target="_blank" data-tooltip="Developed in: React JS, TS, Framer Motion">'https://skycasts-weather.vercel.app/'</a> </span>}
