@@ -1,0 +1,29 @@
+{
+  "rewrites": [
+    {
+      "source": "/blog-view-one/:path*",
+      "destination": "/blogs/blog-view-one/:path*"
+    },
+    {
+      "source": "/blog-view-two/:path*",
+      "destination": "/blogs/blog-view-two/:path*"
+    },
+    {
+      "source": "/blogs/:path*",
+      "destination": "/blogs/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/blog-view-one/blog-view-one.html",
+      "destination": "/blogs/blog-view-one/blog-view-one.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog-view-two/blog-view-two.html",
+      "destination": "/blogs/blog-view-two/blog-view-two.html",
+      "permanent": true
+    }
+  ]
+}
+
