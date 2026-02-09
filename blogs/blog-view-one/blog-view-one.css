@@ -104,6 +104,13 @@ header {
   transition: color 0.2s;
 }
 
+@media (max-width: 768px) {
+  .logo a{
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+}
+
 .logo a:hover {
   color: #8739fa;
 }
@@ -111,6 +118,13 @@ header {
 .icons {
   display: flex;
   gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .icon path {

@@ -201,6 +201,12 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem 0;
+      }
+    }
+
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
@@ -240,6 +246,12 @@
       gap: 1.5rem;
     }
 
+    @media (max-width: 768px) {
+      .icons {
+        gap: 1rem;
+      }
+    }
+
     a {
       text-decoration: none;
       color: var(--primary);
@@ -252,6 +264,13 @@
       transition: var(--transition);
       fill: none;
       stroke: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     .icon:hover {
@@ -307,12 +326,24 @@
       padding-top: 120px;
     }
 
+    @media (max-width: 768px) {
+      .blog {
+        padding-top: 40px;
+      }
+    }
+
     /* Cards Grid */
     .cards-container {
       display: flex;
       flex-direction: column;
       gap: 2.5rem;
       margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .cards-container {
+        gap: 1rem;
+      }
     }
 
     .card-link {
@@ -339,12 +370,19 @@
 
       @media (max-width: 1100px) {
         flex-direction: column;
+        text-align: center;
         
       }
     }
 
     footer p {
       padding-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .footer p {
+        padding-bottom: 0;
+      }
     }
 
     .card:hover {
@@ -394,7 +432,7 @@
     width: 100%;
 
     @media (max-width: 1100px) {
-      height: 250px;
+      height: 150px;
       max-width: 100%;
     }
     }
@@ -442,6 +480,12 @@
       flex-direction: column;
       position: relative;
       z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      .card-content {
+        padding: 1rem;
+      }
     }
 
     .card-title {
@@ -524,6 +568,17 @@
       font-weight: 500;
     }
 
+    @media (max-width: 768px) {
+      footer {
+        text-align: center !important;
+      }
+
+      footer p {
+        font-size: 15px;
+        padding-bottom: 0;
+      }
+    }
+
     /* Floating Cursor Follower */
     .cursor-follower {
       position: fixed;
@@ -543,7 +598,8 @@
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .blog-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        margin-bottom: 0;
       }
 
       .cards-container {
@@ -551,7 +607,20 @@
       }
 
       .logo {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+      }
+
+      .card-title {
+        font-size: 1rem;
+        text-align: left;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 4.2em;
+        line-height: 1.4;
       }
     }
 
@@ -609,6 +678,12 @@
       font-size: 0.8rem;
       color: var(--primary);
       z-index: 100;
+    }
+
+    @media (max-width: 768px) {
+      .console-effect {
+        display: none;
+      }
     }
 
     .console-effect::before {
@@ -710,7 +785,7 @@
           <a href="../">Haseeb_Dev</a>
         </div>
         <div class="icons">
-          <a href="https://linkedin.com/mhaseebdevv" target="_blank" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/haseebdevv/" target="_blank" aria-label="LinkedIn">
             <svg width="34" height="34" viewBox="0 0 34 34" class="icon" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M32 10.3333V23.6667C32 28.269 28.269 32 23.6667 32H10.3333C5.73097 32 2 28.269 2 23.6667V10.3333C2 5.73097 5.73097 2 10.3333 2H23.6667C28.269 2 32 5.73097 32 10.3333Z"
@@ -949,6 +1024,38 @@
         const progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
         scrollProgress.style.width = `${progress}%`;
       });
+
+      // Truncate card titles to 9 words on mobile
+      function truncateTitlesForMobile() {
+        if (window.innerWidth <= 768) {
+          const cardTitles = document.querySelectorAll('.card-title');
+          cardTitles.forEach(title => {
+            const originalText = title.getAttribute('data-original') || title.textContent.trim();
+            if (!title.getAttribute('data-original')) {
+              title.setAttribute('data-original', originalText);
+            }
+            const words = originalText.split(/\s+/);
+            if (words.length > 9) {
+              title.textContent = words.slice(0, 9).join(' ') + '...';
+            } else {
+              title.textContent = originalText;
+            }
+          });
+        } else {
+          // Restore original text on desktop
+          const cardTitles = document.querySelectorAll('.card-title');
+          cardTitles.forEach(title => {
+            const originalText = title.getAttribute('data-original');
+            if (originalText) {
+              title.textContent = originalText;
+            }
+          });
+        }
+      }
+
+      // Run on load and resize
+      truncateTitlesForMobile();
+      window.addEventListener('resize', truncateTitlesForMobile);
 
       // Initialize tilt effect on cards
       VanillaTilt.init(document.querySelectorAll(".card"), {

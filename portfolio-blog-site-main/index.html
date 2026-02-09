@@ -339,13 +339,19 @@
 
       @media (max-width: 1100px) {
         flex-direction: column;
-        
       }
     }
 
     footer p {
       padding-bottom: 40px;
     }
+
+    @media (max-width: 768px) {
+      .footer p {
+        padding-bottom: 0;
+      }
+    }
+
 
     .card:hover {
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -394,7 +400,7 @@
     width: 100%;
 
     @media (max-width: 1100px) {
-      height: 250px;
+      height: 150px;
       max-width: 100%;
     }
     }
