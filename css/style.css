@@ -844,6 +844,29 @@ footer a {
     margin-bottom: 5px;
   }
   
+  /* Fix separater comment alignment on mobile */
+  @media (max-width: 450px) {
+    .about-us pre .separater {
+      display: inline !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      white-space: pre;
+      line-height: inherit;
+    }
+    
+    .about-us pre .separater.comment {
+      display: inline !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      vertical-align: baseline;
+    }
+    
+    /* Ensure dots and separater stay on same line */
+    .about-us pre .dot + .separater {
+      display: inline !important;
+    }
+  }
+  
   /* Fix for long project names */
   .about-us pre .string {
     display: inline-block;
