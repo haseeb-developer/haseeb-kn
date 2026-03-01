@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  font-family: "Poppins", serif;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle, rgba(255, 182, 193, 0.8) 20%, rgba(100, 149, 237, 0.6) 50%, rgba(255, 218, 185, 0.8) 80%),
+                  radial-gradient(circle, rgba(255, 99, 71, 0.5) 10%, rgba(255, 215, 0, 0.7) 50%, rgba(0, 255, 255, 0.6) 90%);
+      background-size: 300% 300%, 300% 300%;
+      background-position: 0% 0%, 100% 100%;
+      animation: gradientShift 10s infinite ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes gradientShift {
+      0% {
+        background-position: 0% 0%, 100% 100%;
+      }
+      25% {
+        background-position: 100% 100%, 50% 50%;
+      }
+      50% {
+        background-position: 100% 100%, 0% 0%;
+      }
+      75% {
+        background-position: 50% 50%, 0% 100%;
+      }
+      100% {
+        background-position: 0% 0%, 100% 100%;
+      }
+    }
+
+h1 {
+  font-size: 100px;
+  font-family: sans-serif;
+}
+
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 35px;
+  }
+}
