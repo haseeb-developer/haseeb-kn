@@ -143,7 +143,7 @@ window.addEventListener("scroll", function () {
     if (!range) return;
     const [start, end] = range.split('-').map(s => s.trim());
     const currentText = el.textContent.trim();
-    const expectedText = /present/i.test(end) ? `${start} - ${end}` : `'${start} - ${end}'`;
+    const expectedText = `'${start} - ${end}'`;
     if (currentText !== expectedText) {
       el.textContent = expectedText;
     }
