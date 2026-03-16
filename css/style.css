@@ -712,6 +712,10 @@ footer a {
   color: #24e33a;
 }
 
+.about-us .duration-value {
+  color: #fff;
+}
+
 .about-us .string a {
   color: inherit;
   font-size: inherit;
