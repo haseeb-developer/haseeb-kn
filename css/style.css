@@ -260,6 +260,15 @@ nav a {
   stroke: #8739fa;
 }
 
+.social-icons svg#upwork path {
+  transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
+}
+
+.social-icons a:hover svg#upwork path {
+  fill: #8739fa;
+  stroke: #8739fa;
+}
+
 header .social-icons {
   margin-top: 0;
 }
